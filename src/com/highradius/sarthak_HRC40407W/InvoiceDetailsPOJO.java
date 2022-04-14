@@ -13,6 +13,7 @@ public class InvoiceDetailsPOJO {
 	private String PostingDate;
 	private String DueInDate;
 	private String BaselineCreateDate;
+	private String InvoiceCurrency;
 	private String CustomerPaymentTerms;
 	private double ConvertedUSD;
 	private String AgingBucket;
@@ -127,12 +128,22 @@ public class InvoiceDetailsPOJO {
 		AgingBucket = agingBucket;
 	}
 
+	public String getInvoiceCurrency() {
+		return InvoiceCurrency;
+	}
+
+	public void setInvoiceCurrency(String invoiceCurrency) {
+		InvoiceCurrency = invoiceCurrency;
+	}
+
 	@Override
 	public String toString() {
-		return "PaymentDate [ID=" + id + ", BusinessCode=" + BusinessCode + ", CustomerNumber=" + CustomerNumber
+		return "InvoiceDetailsPOJO [id=" + id + ", BusinessCode=" + BusinessCode + ", CustomerNumber=" + CustomerNumber
 				+ ", CustomerName=" + CustomerName + ", ClearDate=" + ClearDate + ", BusinessYear=" + BusinessYear
 				+ ", DocID=" + DocID + ", PostingDate=" + PostingDate + ", DueInDate=" + DueInDate
-				+ ", BaselineCreateDate=" + BaselineCreateDate + ", CustomerPaymentTerms=" + CustomerPaymentTerms
-				+ ", ConvertedUSD=" + ConvertedUSD + ", AgingBucket=" + AgingBucket + "]";
+				+ ", BaselineCreateDate=" + BaselineCreateDate + ", InvoiceCurrency=" + InvoiceCurrency
+				+ ", CustomerPaymentTerms=" + CustomerPaymentTerms + ", ConvertedUSD=" + ConvertedUSD + ", AgingBucket="
+				+ AgingBucket + "]";
 	}
+
 }

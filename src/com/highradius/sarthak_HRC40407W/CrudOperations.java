@@ -32,6 +32,7 @@ public class CrudOperations {
 		String postingDate;
 		String dueInDate;
 		String baselineCreateDate;
+		String invoiceCurrency;
 		String customerPaymentTerms;
 		double convertedUSD;
 		String agingBucket;
@@ -58,6 +59,7 @@ public class CrudOperations {
 			customerPaymentTerms = rs.getString(11);
 			convertedUSD = rs.getDouble(12);
 			agingBucket = rs.getString(13);
+			invoiceCurrency=rs.getString(14);
 
 			pd.setID(id);
 			pd.setBusinessCode(businessCode);
@@ -69,9 +71,11 @@ public class CrudOperations {
 			pd.setPostingDate(postingDate);
 			pd.setDueInDate(dueInDate);
 			pd.setBaselineCreateDate(baselineCreateDate);
+			pd.setInvoiceCurrency(invoiceCurrency);
 			pd.setCustomerPaymentTerms(customerPaymentTerms);
 			pd.setConvertedUSD(convertedUSD);
 			pd.setAgingBucket(agingBucket);
+			
 			customerList.add(pd);
 		}
 		return customerList;
@@ -81,7 +85,7 @@ public class CrudOperations {
 		Connection con = getConnection();
 
 		// Get max no. of entries in the table
-		String getMaxID = "SELECT MAX(MyUnknownColumn) FROM hrc40407w_sarthak_kumar_behera";
+		String getMaxID = "SELECT MAX(sl_no) FROM hrc40407w_sarthak_kumar_behera";
 		int newID;
 
 		PreparedStatement pst = con.prepareStatement(getMaxID);
@@ -90,7 +94,7 @@ public class CrudOperations {
 		newID = rs.getInt(1);
 
 		// Firing the Insert Query
-		String insertQuery = "insert into hrc40407w_sarthak_kumar_behera (MyUnknownColumn, business_code, cust_number, "
+		String insertQuery = "insert into hrc40407w_sarthak_kumar_behera (sl_no, business_code, cust_number, "
 				+ "name_customer, clear_date, buisness_year, doc_id, posting_date, due_in_date, baseline_create_date, "
 				+ "cust_payment_terms, converted_usd) values (?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement pst2 = con.prepareStatement(insertQuery);
@@ -108,5 +112,26 @@ public class CrudOperations {
 		pst2.setDouble(12, newEntry.getConvertedUSD());
 
 		return pst2.executeUpdate();
+	}
+	
+	public int updateData (InvoiceDetailsPOJO updateData) throws ClassNotFoundException, SQLException {
+		Connection con = getConnection();
+		
+		String updateQuery = "update hrc40407w_sarthak_kumar_behera set invoice_currency = ? , cust_payment_terms = ? where doc_id= ?";
+		PreparedStatement pst = con.prepareStatement(updateQuery);
+		pst.setLong(3, updateData.getDocID());
+		pst.setString(1, updateData.getInvoiceCurrency());
+		pst.setString(2, updateData.getCustomerPaymentTerms());
+		
+		return pst.executeUpdate();
+	}
+	
+	public int deleteData (InvoiceDetailsPOJO delData) throws ClassNotFoundException, SQLException {
+		Connection con = getConnection();
+		String deleteQuery = "delete from hrc40407w_sarthak_kumar_behera where doc_id= ?";
+		PreparedStatement pst = con.prepareStatement(deleteQuery);
+		pst.setLong(1, delData.getDocID());
+		
+		return pst.executeUpdate();
 	}
 }
